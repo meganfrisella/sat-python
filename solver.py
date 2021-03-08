@@ -66,28 +66,37 @@ def printOutput(assignment):
     isSat = (assignment is not None)
     if isSat:
         for var in assignment:
-            result += " " + ("" if assignment[var] else "-") + str(var)
+            result += " " + ("" if assignment[bool(var)] else "-") + str(var)
 
     print(f"s {'SATISFIABLE' if isSat else 'UNSATISFIABLE'}")
     if isSat:
         print(f"v{result} 0")
 
-def unitClauseElim(formula):
+
+def unitClauseElim(varAssignment: dict[Literal, int], formula: list[Clause]):
     # for each unit clause {+/-x} in formula
     # 	remove all non-unit clauses containing +/-x
     # 	remove all instances of -/+x in every clause // flipped sign!
     # 	assign x consistent with its sign in unit clause
-    pass
+    for clause in formula:
+        if (len(clause.literalSet) == 1):
+            literal = clause.literalSet[0]
+            opliteral = Literal(literal.name, not(literal.sign))
+            formula = list(filter(lambda c: not((len(c.literalSet) != 1) and literal in c.literalSet), formula))
+            formula = list(map(lambda c: filter(lambda l: not(opliteral == l), c.literalSet), formula))
+            varAssignment[literal] = int(literal.sign)
+    return varAssignment, formula
 
 
-def pureLiteralElim(formula):
+def pureLiteralElim(varAssignment: dict[Literal, int], formula: list[Clause]):
     # for each variable x
     #     if +/-x is pure in formula
     #         remove all clauses containing +/-x
     #         assign x consistent with its sign
     pass
 
-def solve(varAssignment, formula):
+
+def solve(varAssignment: dict[Literal, int], formula: list[Clause]):
 	# // do unit clause elim and pure literal elim on the formula
 	# unitClauseElim(formula)
 	# pureLiteralElim(formula)
@@ -102,11 +111,15 @@ def solve(varAssignment, formula):
 	# 	return result of solving with x assigned to true
 	# else
 	# 	return solve(varAssignment + {-x}, formula)
+    varAssignment, formula = unitClauseElim(varAssignment, formula)
     pass
+
 
 if __name__ == "__main__":
     inputFile = sys.argv[1]
-    varbset, clauseSet = readInput(inputFile)
+    varset, clauseSet = readInput(inputFile)
+    varAssignment = dict.fromKeys(varset, -1)
+    varAssignment = solve(varAssignment, clauseSet)
 
     # TODO: find a satisfying instance (or return unsat) and print it out
-    printOutput({})
+    printOutput(varAssignment)
