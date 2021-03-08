@@ -57,9 +57,8 @@ def readInput(cnfFile):
 
                 clauseSet.append(Clause(nextCID, literalSet))
                 nextCID += 1
-    
-    return variableSet, clauseSet
 
+    return variableSet, clauseSet
 
 # Print the result in DIMACS format
 def printOutput(assignment):
@@ -73,6 +72,37 @@ def printOutput(assignment):
     if isSat:
         print(f"v{result} 0")
 
+def unitClauseElim(formula):
+    # for each unit clause {+/-x} in formula
+    # 	remove all non-unit clauses containing +/-x
+    # 	remove all instances of -/+x in every clause // flipped sign!
+    # 	assign x consistent with its sign in unit clause
+    pass
+
+
+def pureLiteralElim(formula):
+    # for each variable x
+    #     if +/-x is pure in formula
+    #         remove all clauses containing +/-x
+    #         assign x consistent with its sign
+    pass
+
+def solve(varAssignment, formula):
+	# // do unit clause elim and pure literal elim on the formula
+	# unitClauseElim(formula)
+	# pureLiteralElim(formula)
+    #
+	# if formula has empty clause
+	# 	return unsat
+	# if formula has no clauses
+	# 	sat -> return current varAssignment
+    #
+	# x := pickVar(formula) // do anything reasonable here
+	# if solve(varAssignment + {+x}, formula) is sat
+	# 	return result of solving with x assigned to true
+	# else
+	# 	return solve(varAssignment + {-x}, formula)
+    pass
 
 if __name__ == "__main__":
     inputFile = sys.argv[1]
