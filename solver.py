@@ -93,7 +93,24 @@ def pureLiteralElim(varAssignment: dict[Literal, int], formula: list[Clause]):
     #     if +/-x is pure in formula
     #         remove all clauses containing +/-x
     #         assign x consistent with its sign
-    pass
+    sign_dict = dict()
+    var_set = set(k for k in varAssignment.keys() if varAssignment[k] == -1)
+
+    for clause in formula:
+        literals = clause.literalSet
+        for lit in literals:
+            if lit in sign_dict:
+                if sign_dict[lit] != lit.sign:
+                    var_set.remove(lit)
+            else:
+                sign_dict[lit] = lit.sign
+
+    # TODO: are these similar loops to simplify?
+    formula = list(map(lambda c: filter(lambda l: not(l in var_set), c.literalSet), formula))
+    for lit in var_set:
+        varAssignment[lit] = int(lit.sign)
+
+    return varAssignment, formula
 
 
 def solve(varAssignment: dict[Literal, int], formula: list[Clause]):
@@ -111,9 +128,37 @@ def solve(varAssignment: dict[Literal, int], formula: list[Clause]):
 	# 	return result of solving with x assigned to true
 	# else
 	# 	return solve(varAssignment + {-x}, formula)
-    varAssignment, formula = unitClauseElim(varAssignment, formula)
-    pass
 
+    varAssignment, formula = unitClauseElim(varAssignment, formula)
+    varAssignment, formula = pureLiteralElim(varAssignment, formula)
+
+    if len(formula) == 0:
+        return varAssignment
+
+    for clause in formula:
+        if len(clause.literalSet) == 0:
+            return None
+
+    lit2freq = dict()
+    for clause in formula:
+        for lit in clause.literalSet:
+            if lit in lit2freq:
+                lit2freq[lit] += 1
+            else:
+                lit2freq[lit] = 1
+
+    # TODO: will this forever recur on the same literal? what's the logic?
+    sort_keys = list(k for k, v in sorted(lit2freq.items(), key=lambda item: item[1]))
+    most_freq = sort_keys[-1]
+    varAssignment[most_freq] = 1
+
+    new_assigment = solve(varAssignment, formula)
+    if not(new_assigment is None):
+        return new_assigment
+    else:
+        varAssignment[most_freq] = 0
+        new_assigment = solve(varAssignment, formula)
+        return new_assigment
 
 if __name__ == "__main__":
     inputFile = sys.argv[1]
@@ -122,4 +167,7 @@ if __name__ == "__main__":
     varAssignment = solve(varAssignment, clauseSet)
 
     # TODO: find a satisfying instance (or return unsat) and print it out
-    printOutput(varAssignment)
+    if varAssignment is None:
+        printOutput("unsat")
+    else:
+        printOutput(varAssignment)
