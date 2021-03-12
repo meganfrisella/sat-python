@@ -166,8 +166,5 @@ if __name__ == "__main__":
     varAssignment = dict.fromKeys(varset, -1)
     varAssignment = solve(varAssignment, clauseSet)
 
-    # TODO: find a satisfying instance (or return unsat) and print it out
-    if varAssignment is None:
-        printOutput("unsat")
-    else:
-        printOutput(varAssignment)
+    printOutput(varAssignment)
+    # NOTE: printOutput expects None for unsat so I remove or if-statement
