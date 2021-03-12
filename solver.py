@@ -66,6 +66,8 @@ def printOutput(assignment):
     isSat = (assignment is not None)
     if isSat:
         for var in assignment:
+            assert(var != -1)
+            # converted `var` to bool (represented as ints in our assignment)
             result += " " + ("" if assignment[bool(var)] else "-") + str(var)
 
     print(f"s {'SATISFIABLE' if isSat else 'UNSATISFIABLE'}")
@@ -139,30 +141,36 @@ def solve(varAssignment: dict[Literal, int], formula: list[Clause]):
         if len(clause.literalSet) == 0:
             return None
 
+    # get num. occurrences of each variable in formula
     lit2freq = dict()
     for clause in formula:
         for lit in clause.literalSet:
-            if lit in lit2freq:
-                lit2freq[lit] += 1
+            if lit.name in lit2freq:
+                lit2freq[lit.name] += 1
             else:
-                lit2freq[lit] = 1
-
-    # TODO: will this forever recur on the same literal? what's the logic?
+                lit2freq[lit.name] = 1
+    # find the most frequent variable
     sort_keys = list(k for k, v in sorted(lit2freq.items(), key=lambda item: item[1]))
     most_freq = sort_keys[-1]
-    varAssignment[most_freq] = 1
 
-    new_assigment = solve(varAssignment, formula)
+    # create a new unit clause with this variable (positive)
+    new_id = max(list(map(lambda c: c.id, formula))) + 1
+    new_literal = Literal(most_freq, True)
+    new_assigment = solve(varAssignment, Clause(new_id, [new_literal]) + formula)
+
     if not(new_assigment is None):
         return new_assigment
     else:
-        varAssignment[most_freq] = 0
-        new_assigment = solve(varAssignment, formula)
+        # create a new unit clause with this variable (negative)
+        new_literal = Literal(most_freq, False)
+        new_assigment = solve(varAssignment, Clause(new_id, [new_literal]) + formula)
         return new_assigment
 
 if __name__ == "__main__":
     inputFile = sys.argv[1]
     varset, clauseSet = readInput(inputFile)
+
+    # dictionary mapping variable name to int (-1=unassigned, 0=False, 1=True)
     varAssignment = dict.fromKeys(varset, -1)
     varAssignment = solve(varAssignment, clauseSet)
 
