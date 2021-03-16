@@ -4,7 +4,14 @@ from solver import (
     Clause,
     pureLiteralElim
 )
-
+"""
+noClause => UNSAT
+oneClause => SAT
+twoClause1 => formula doesn't change
+twoClause2 => formula doesn't change
+manyClause1 => vars 2 and 3 removed
+manyClause2 => SAT
+"""
 class PureLitElimTests(unittest.TestCase):
 
     def test_format(self):

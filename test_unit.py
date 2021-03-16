@@ -4,7 +4,14 @@ from solver import (
     Clause,
     unitClauseElim
 )
-
+"""
+noClause => UNSAT
+oneClause => SAT
+twoClause1 => SAT
+twoClause2 => UNSAT
+manyClause1 => new formula doesn't contain var 1 or 2
+manyClause3 => formula doesn't change
+"""
 class UnitClauseElimTests(unittest.TestCase):
 
     def test_format(self):

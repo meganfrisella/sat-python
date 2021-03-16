@@ -1,0 +1,4 @@
+c  simple.cnf
+c
+p cnf 0 0
+0
