@@ -104,7 +104,7 @@ def pureLiteralElim(varAssignment, formula):
     for clause in formula:
         literals = clause.literalSet
         for lit in literals:
-            if lit.name in sign_dict:
+            if (lit.name in sign_dict) and (lit.name in var_set):
                 if sign_dict[lit.name] != lit.sign:
                     var_set.remove(lit.name)
             else:
@@ -134,16 +134,16 @@ def solve(varAssignment, formula):
 	# 	return result of solving with x assigned to true
 	# else
 	# 	return solve(varAssignment + {-x}, formula)
-
-    print(f"BEGINNING: {varAssignment.items()}, {formula}")
+    print("______________________________________")
+    print(f"BEGINNING:\n{varAssignment.items()},\n{formula}")
 
     varAssignment, formula = unitClauseElim(varAssignment, formula)
-
-    print(f"AFTER UNIT ELIM: {varAssignment.items()}, {formula}")
+    print("______________________________________")
+    print(f"AFTER UNIT ELIM:\n{varAssignment.items()},\n{formula}")
 
     varAssignment, formula = pureLiteralElim(varAssignment, formula)
-
-    print(f"AFTER PURE ELIM: {varAssignment.items()}, {formula}")
+    print("______________________________________")
+    print(f"AFTER PURE ELIM:\n{varAssignment.items()},\n{formula}")
 
     if len(formula) == 0:
         for name in varAssignment.keys():
@@ -191,4 +191,3 @@ if __name__ == "__main__":
     varAssignment = solve(varAssignment, clauseSet)
 
     printOutput(varAssignment)
-    # NOTE: printOutput expects None for unsat so I remove or if-statement

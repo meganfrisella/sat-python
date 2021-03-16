@@ -46,6 +46,7 @@ class SolveTests(unittest.TestCase):
     def test_some_none_clause_False(self):
         self.assertFalse(evaluate("test_files/noClause.txt"))
         self.assertFalse(evaluate("test_files/twoClause2.txt"))
+        self.assertFalse(evaluate("test_files/manyClauseFalse.txt"))
 
     def test_some_clause_True(self):
         self.assertTrue(evaluate("test_files/oneClause.txt"))
