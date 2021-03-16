@@ -18,7 +18,6 @@ from solver import (
     #
 
 def evaluate(filename):
-    print("im here")
 
     # is it sat or not
     varset, clauseSet = readInput(filename)
