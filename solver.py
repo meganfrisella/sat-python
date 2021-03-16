@@ -76,10 +76,12 @@ def printOutput(assignment):
 
 
 def unitClauseElim(varAssignment, formula):
+    '''
     # for each unit clause {+/-x} in formula
     # 	remove all non-unit clauses containing +/-x
     # 	remove all instances of -/+x in every clause // flipped sign!
     # 	assign x consistent with its sign in unit clause
+    '''
     for clause in formula:
         if (len(clause.literalSet) == 1):
             literal = clause.literalSet[0]
@@ -91,10 +93,12 @@ def unitClauseElim(varAssignment, formula):
 
 
 def pureLiteralElim(varAssignment, formula):
+    '''
     # for each variable x
     #     if +/-x is pure in formula
     #         remove all clauses containing +/-x
     #         assign x consistent with its sign
+    '''
     if len(formula) == 0:
         return varAssignment, formula
 
@@ -120,7 +124,8 @@ def pureLiteralElim(varAssignment, formula):
 
 
 def solve(varAssignment, formula):
-	# // do unit clause elim and pure literal elim on the formula
+    '''
+	# do unit clause elim and pure literal elim on the formula
 	# unitClauseElim(formula)
 	# pureLiteralElim(formula)
     #
@@ -134,16 +139,18 @@ def solve(varAssignment, formula):
 	# 	return result of solving with x assigned to true
 	# else
 	# 	return solve(varAssignment + {-x}, formula)
-    print("______________________________________")
-    print(f"BEGINNING:\n{varAssignment.items()},\n{formula}")
+    '''
+
+    # print("______________________________________")
+    # print(f"BEGINNING:\n{varAssignment.items()},\n{formula}")
 
     varAssignment, formula = unitClauseElim(varAssignment, formula)
-    print("______________________________________")
-    print(f"AFTER UNIT ELIM:\n{varAssignment.items()},\n{formula}")
+    # print("______________________________________")
+    # print(f"AFTER UNIT ELIM:\n{varAssignment.items()},\n{formula}")
 
     varAssignment, formula = pureLiteralElim(varAssignment, formula)
-    print("______________________________________")
-    print(f"AFTER PURE ELIM:\n{varAssignment.items()},\n{formula}")
+    # print("______________________________________")
+    # print(f"AFTER PURE ELIM:\n{varAssignment.items()},\n{formula}")
 
     if len(formula) == 0:
         for name in varAssignment.keys():
@@ -167,7 +174,7 @@ def solve(varAssignment, formula):
     sort_keys = list(k for k, v in sorted(lit2freq.items(), key=lambda item: item[1]))
     most_freq = sort_keys[0]
 
-    print(f"SORTED UNASSIGNED KEYS: {sort_keys}\n")
+    # print(f"SORTED UNASSIGNED KEYS: {sort_keys}\n")
 
     # create a new unit clause with this variable (positive)
     new_id = max(list(map(lambda c: c.id, formula))) + 1
