@@ -1,6 +1,6 @@
 c  simple.cnf
 c
-p cnf 8 3
+p cnf 3 8
 1 2 3 0
 1 2 -3 0
 1 -2 3 0

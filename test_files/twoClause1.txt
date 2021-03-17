@@ -1,5 +1,5 @@
 c  simple.cnf
 c
-p cnf 2 1
+p cnf 1 2
 -1 0
 -1 0
