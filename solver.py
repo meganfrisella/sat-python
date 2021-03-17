@@ -67,7 +67,7 @@ def printOutput(assignment):
     if isSat:
         for var in assignment:
             assert(assignment[var] != -1)
-            # converted `var` to bool (represented as ints in our assignment)
+            # NOTE: converted `var` to bool (represented as ints in our assignment)
             result += " " + ("" if bool(assignment[var]) else "-") + str(var)
 
     print(f"s {'SATISFIABLE' if isSat else 'UNSATISFIABLE'}")
@@ -77,10 +77,10 @@ def printOutput(assignment):
 
 def unitClauseElim(varAssignment, formula):
     '''
-    # for each unit clause {+/-x} in formula
-    # 	remove all non-unit clauses containing +/-x
-    # 	remove all instances of -/+x in every clause // flipped sign!
-    # 	assign x consistent with its sign in unit clause
+    for each unit clause {+/-x} in formula
+    	remove all non-unit clauses containing +/-x
+    	remove all instances of -/+x in every clause // flipped sign!
+    	assign x consistent with its sign in unit clause
     '''
     for clause in formula:
         if (len(clause.literalSet) == 1):
@@ -94,10 +94,10 @@ def unitClauseElim(varAssignment, formula):
 
 def pureLiteralElim(varAssignment, formula):
     '''
-    # for each variable x
-    #     if +/-x is pure in formula
-    #         remove all clauses containing +/-x
-    #         assign x consistent with its sign
+    for each variable x
+        if +/-x is pure in formula
+            remove all clauses containing +/-x
+            assign x consistent with its sign
     '''
     if len(formula) == 0:
         return varAssignment, formula
@@ -125,20 +125,20 @@ def pureLiteralElim(varAssignment, formula):
 
 def solve(varAssignment, formula):
     '''
-	# do unit clause elim and pure literal elim on the formula
-	# unitClauseElim(formula)
-	# pureLiteralElim(formula)
-    #
-	# if formula has empty clause
-	# 	return unsat
-	# if formula has no clauses
-	# 	sat -> return current varAssignment
-    #
-	# x := pickVar(formula) // do anything reasonable here
-	# if solve(varAssignment + {+x}, formula) is sat
-	# 	return result of solving with x assigned to true
-	# else
-	# 	return solve(varAssignment + {-x}, formula)
+	do unit clause elim and pure literal elim on the formula
+	unitClauseElim(formula)
+	pureLiteralElim(formula)
+
+	if formula has empty clause
+		return unsat
+	if formula has no clauses
+		sat -> return current varAssignment
+
+	x := pickVar(formula) // do anything reasonable here
+	if solve(varAssignment + {+x}, formula) is sat
+		return result of solving with x assigned to true
+	else
+		return solve(varAssignment + {-x}, formula)
     '''
 
     # print("______________________________________")

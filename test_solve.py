@@ -5,21 +5,12 @@ from solver import (
     solve,
     readInput
 )
-# case 0: no clauses or empty clause?
-
-# case 1: one literal one clause formula
-
-# case 2: one literal two clause formulas
-    # sign same, sign different -> SAT, UNSAT
-# case 3:
-    # a, a b, -a c -> unit elim from final a
-
-# case 4:
-    #
 
 def evaluate(filename):
-
-    # is it sat or not
+    '''
+    Evaluates the given assignments and tests in python boolean logic
+    if it is satisfiable. If it's not satisfiable returns false.
+    '''
     varset, clauseSet = readInput(filename)
     varAssignment = dict.fromkeys(varset, -1)
     varAssignment = solve(varAssignment, clauseSet)
