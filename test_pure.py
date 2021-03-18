@@ -29,13 +29,13 @@ class PureLitElimTests(unittest.TestCase):
     def test_one_clause(self):
         varAssignment, formula = getInputs("test_files/oneClause.txt")
         new_varAssignment = varAssignment.copy()
-        new_varAssignment['1'] = True
+        new_varAssignment['1'] = 1
         self.assertEqual(pureLiteralElim(varAssignment, formula), (new_varAssignment, []))
 
     def test_two_clause1(self):
         varAssignment, formula = getInputs("test_files/twoClause1.txt")
         new_varAssignment = varAssignment.copy()
-        new_varAssignment['1'] = False
+        new_varAssignment['1'] = 0
         self.assertEqual(pureLiteralElim(varAssignment, formula), (new_varAssignment, []))
 
     def test_two_clause2(self):
@@ -45,8 +45,8 @@ class PureLitElimTests(unittest.TestCase):
     def test_two_many_clause1(self):
         varAssignment, formula = getInputs("test_files/manyClause1.txt")
         new_varAssignment = varAssignment.copy()
-        new_varAssignment['2'] = False
-        new_varAssignment['3'] = True
+        new_varAssignment['2'] = 0
+        new_varAssignment['3'] = 1
         _, new_formula = getInputs("test_files/manyClause1output.txt")
         self.assertEqual(pureLiteralElim(varAssignment, formula), (new_varAssignment, new_formula))
 
