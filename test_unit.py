@@ -6,15 +6,6 @@ from solver import (
     unitClauseElim
 )
 
-"""
-noClause => UNSAT
-oneClause => SAT
-twoClause1 => SAT
-twoClause2 => UNSAT
-manyClause1 => new formula doesn't contain var 1 or 2
-manyClause3 => formula doesn't change
-"""
-
 def getInputs(filename):
     varset, clauseSet = readInput(filename)
     varAssignment = dict.fromkeys(varset, -1)

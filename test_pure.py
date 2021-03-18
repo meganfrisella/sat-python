@@ -6,15 +6,6 @@ from solver import (
     pureLiteralElim
 )
 
-"""
-noClause => UNSAT
-oneClause => SAT
-twoClause1 => formula becomes empty
-twoClause2 => formula doesn't change
-manyClause1 => vars 2 and 3 removed
-manyClause2 => SAT
-"""
-
 def getInputs(filename):
     varset, clauseSet = readInput(filename)
     varAssignment = dict.fromkeys(varset, -1)

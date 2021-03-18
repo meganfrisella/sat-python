@@ -1,11 +1,6 @@
-**Prompt**:
+We encountered the following error and weren't able to resolve it after inquiring on Piazza:
 
-In four or so sentences, compare how quickly Forge is able to find an instance for 
-some spec from a previous homework using your solver compared to the default one 
-(with the above line removed). You can find the solve time (time spent in the actual 
-SAT solver) in the debug information Forge prints before launching Sterling. Note down 
-what spec you used and what the solve times were for a sat and unsat instance for your 
-solver and for the default one.
+kodkod.engine.satlab.SATAbortedException: Invalid /Users/.../sat-python/run.sh output: no line specifying the outcome. (line 17, pos 1):
+BasicParseError
 
-**Response**:
-
+However, we tried evaluating our SAT solver on large formulas (25 variables, 40 clauses) and found that it solved these instances in under 30 seconds.
