@@ -48,5 +48,8 @@ class SolveTests(unittest.TestCase):
         self.assertTrue(evaluate("test_files/manyClause2.txt"))
         self.assertTrue(evaluate("test_files/manyClause3.txt"))
 
+    def test_large_clauses(self):
+        self.assertTrue(evaluate("test_files/random_complex_clause.txt"))
+
 if __name__ == '__main__':
     unittest.main()
